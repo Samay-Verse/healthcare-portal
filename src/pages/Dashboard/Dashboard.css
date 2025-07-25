@@ -1,0 +1,284 @@
+/*
+  ================================================================================
+  VANDANA-HUB :: PROFESSIONAL WHITE THEME (V3 - ADVANCED ANIMATIONS)
+  ================================================================================
+  Author: You
+  Date: 23-JUL-2025
+  Description: A complete redesign focusing on a professional white aesthetic
+               with advanced, fluid, and layered animations for a premium feel.
+  --------------------------------------------------------------------------------
+  TABLE OF CONTENTS
+  --------------------------------------------------------------------------------
+  1.  CSS Variables (NEW White Palette, Fonts, Shadows, Animations)
+  2.  General Styling & Background
+  3.  Container & Layout
+  4.  Animations (NEW & ADVANCED)
+  5.  Header & Logo
+  6.  Profile Menu & Avatar
+  7.  Main Content & Typography
+  8.  Cards Grid & Dashboard Cards (NEW Layered Design)
+  9.  Card Themes (Recalibrated for White BG)
+  10. Buttons (NEW Interactive Arrow & Gloss Effect)
+  11. Icons
+  12. Responsive Design
+  ================================================================================
+*/
+
+/* 1. CSS Variables (NEW White Palette, Fonts, Shadows, Animations) */
+:root {
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+  --font-display: 'Manrope', var(--font-sans);
+  --ease-in-out-cubic: cubic-bezier(0.65, 0, 0.35, 1);
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+
+  /* NEW: Professional White Theme Palette */
+  --bg-primary: #ffffff;
+  --bg-secondary: #fdfdff; /* A very subtle off-white for cards */
+  --text-primary: #1a202c; /* Softer than black */
+  --text-secondary: #525f7f;
+  --border-primary: #eef2f7;
+  --shadow-sm: 0 2px 4px rgba(50, 50, 93, 0.05), 0 1px 2px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 7px 14px rgba(50, 50, 93, 0.08), 0 3px 6px rgba(0, 0, 0, 0.06);
+  --shadow-lg: 0 15px 35px rgba(50, 50, 93, 0.1), 0 5px 15px rgba(0, 0, 0, 0.08);
+
+  /* Themed Colors (Recalibrated for White BG) */
+  --blue-bg: #eef6ff; --blue-fg: #2563eb; --blue-btn: #3b82f6; --blue-btn-hover: #2563eb; --blue-ring: rgba(59, 130, 246, 0.5);
+  --green-bg: #f0fdf4; --green-fg: #16a34a; --green-btn: #22c55e; --green-btn-hover: #16a34a; --green-ring: rgba(34, 197, 94, 0.5);
+  --purple-bg: #faf5ff; --purple-fg: #9333ea; --purple-btn: #a855f7; --purple-btn-hover: #9333ea; --purple-ring: rgba(168, 85, 247, 0.5);
+  --red-fg: #e11d48; --red-bg-hover: #e11d48;
+}
+
+/* Dark Theme (Kept for preference, but main design is light) */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg-primary: #0b1120; --bg-secondary: #1d273a; --text-primary: #e2e8f0;
+    --text-secondary: #94a3b8; --border-primary: #38475f;
+    --shadow-sm: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+    --shadow-md: 0 10px 15px -3px rgba(0, 0, 0, 0.15), 0 4px 6px -4px rgba(0, 0, 0, 0.15);
+    --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.2), 0 8px 10px -6px rgba(0, 0, 0, 0.2);
+    --red-fg: #f87171; --red-bg-hover: #ef4444;
+  }
+}
+
+/* 2. General Styling & Background */
+body {
+  margin: 0;
+  font-family: var(--font-sans);
+  color: var(--text-primary);
+  background-color: var(--bg-primary);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.dashboard-wrapper {
+  min-height: 100vh;
+  width: 100%;
+  position: relative;
+  overflow: hidden; /* Contain pseudo-elements */
+}
+
+/* Subtle moving glows in the background */
+.dashboard-wrapper::before, .dashboard-wrapper::after {
+    content: '';
+    position: absolute;
+    z-index: -1;
+    filter: blur(100px);
+    border-radius: 50%;
+    animation: background-glow 25s ease-in-out infinite;
+}
+.dashboard-wrapper::before {
+    background: rgba(59, 130, 246, 0.1);
+    width: 400px; height: 400px;
+    top: -100px; left: -100px;
+}
+.dashboard-wrapper::after {
+    background: rgba(168, 85, 247, 0.1);
+    width: 500px; height: 500px;
+    bottom: -150px; right: -150px;
+    animation-delay: -12s;
+}
+
+/* 3. Container & Layout */
+.container { max-width: 1280px; margin: 0 auto; padding: 0 1rem; }
+@media (min-width: 640px) { .container { padding: 0 1.5rem; } }
+@media (min-width: 1024px) { .container { padding: 0 2rem; } }
+
+/* 4. Animations (NEW & ADVANCED) */
+@keyframes background-glow {
+  50% { transform: scale(1.4) translate(50px, -50px); }
+}
+@keyframes dropdown-fade-in {
+  from { opacity: 0; transform: translateY(-10px) scale(0.95); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+/* NEW: Swoop-in animation for cards */
+@keyframes card-swoop-in {
+  from { opacity: 0; transform: translateY(50px) rotateX(-20deg); }
+  to { opacity: 1; transform: translateY(0) rotateX(0deg); }
+}
+/* NEW: Glossy shimmer effect for cards on hover */
+@keyframes card-gloss-wipe {
+  from { transform: translateX(-100%) skewX(-20deg); }
+  to { transform: translateX(200%) skewX(-20deg); }
+}
+
+/* 5. Header & Logo */
+.dashboard-header {
+  padding: 1.5rem 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid var(--border-primary);
+}
+.header-logo { display: flex; align-items: center; gap: 0.75rem; }
+.logo-icon { height: 2.25rem; width: auto; color: var(--blue-btn); }
+.header-title {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+}
+
+/* 6. Profile Menu & Avatar */
+.profile-menu-wrapper { position: relative; }
+.avatar-button {
+  width: 3rem; height: 3rem; border-radius: 50%;
+  overflow: hidden; border: 2px solid var(--border-primary);
+  background-color: var(--border-primary); padding: 0; cursor: pointer;
+  transition: transform 0.3s var(--ease-out-expo), border-color 0.3s ease;
+}
+.avatar-button:hover, .avatar-button:focus {
+  border-color: var(--blue-btn);
+  transform: scale(1.1);
+}
+.avatar-image { width: 100%; height: 100%; object-fit: cover; }
+.profile-menu {
+  position: absolute; right: 0; margin-top: 0.75rem; width: 16rem;
+  background-color: var(--bg-primary); border-radius: 1rem;
+  border: 1px solid var(--border-primary); box-shadow: var(--shadow-lg);
+  z-index: 50; animation: dropdown-fade-in 0.3s var(--ease-out-expo);
+  transform-origin: top right; overflow: hidden;
+}
+.profile-menu-item {
+  display: flex; align-items: center; gap: 0.75rem; padding: 0.75rem 1rem;
+  color: var(--text-secondary); text-decoration: none; background: none; border: none;
+  width: 100%; text-align: left; cursor: pointer; font-size: 0.95rem; font-weight: 500;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+.profile-menu-item:hover { background-color: var(--blue-bg); color: var(--text-primary); }
+.profile-menu-logout { color: var(--red-fg); }
+.profile-menu-logout:hover { background-color: var(--red-bg-hover); color: #fff; }
+
+/* 7. Main Content & Typography */
+.main-content { padding: 5rem 0; }
+.main-title {
+  font-family: var(--font-display); font-size: 3rem; font-weight: 800;
+  text-align: center; margin-bottom: 1rem; letter-spacing: -1.5px;
+  animation: card-swoop-in 0.6s var(--ease-out-expo) backwards;
+}
+.main-subtitle {
+  font-size: 1.125rem; color: var(--text-secondary); text-align: center;
+  margin-bottom: 5rem; max-width: 42rem; margin: 0 auto 5rem auto;
+  animation: card-swoop-in 0.6s var(--ease-out-expo) 150ms backwards;
+}
+
+/* 8. Cards Grid & Dashboard Cards (NEW Layered Design) */
+.cards-grid { display: grid; grid-template-columns: repeat(1, 1fr); gap: 1.5rem; }
+@media (min-width: 768px) { .cards-grid { grid-template-columns: repeat(2, 1fr); gap: 2rem; } }
+@media (min-width: 1024px) { .cards-grid { grid-template-columns: repeat(3, 1fr); } }
+
+.dashboard-card {
+  background-color: var(--bg-secondary);
+  border: 1px solid var(--border-primary);
+  border-radius: 1.5rem;
+  box-shadow: var(--shadow-md);
+  transition: transform 0.4s var(--ease-out-expo), box-shadow 0.4s var(--ease-out-expo), border-color 0.4s var(--ease-out-expo);
+  display: flex; flex-direction: column; padding: 2rem;
+  opacity: 0;
+  animation: card-swoop-in 0.7s var(--ease-out-expo) forwards;
+  position: relative; overflow: hidden;
+  transform-style: preserve-3d;
+}
+/* NEW: Gloss wipe effect element */
+.dashboard-card::after {
+  content: ''; position: absolute; top: 0; left: 0;
+  width: 50%; height: 100%; z-index: 1;
+  background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,0.5) 50%, rgba(255,255,255,0) 100%);
+  transform: translateX(-100%) skewX(-20deg);
+  transition: transform 0.6s var(--ease-in-out-cubic);
+}
+.dashboard-card:hover {
+  transform: translateY(-10px) scale(1.02);
+  box-shadow: var(--shadow-lg);
+  border-color: var(--btn-color);
+}
+.dashboard-card:hover::after {
+  transform: translateX(250%) skewX(-20deg);
+}
+.card-content-wrapper { flex-grow: 1; display: flex; flex-direction: column; z-index: 2; }
+.card-icon-wrapper {
+  width: 4rem; height: 4rem; border-radius: 1.25rem;
+  display: flex; align-items: center; justify-content: center;
+  margin-bottom: 1.5rem; transition: transform 0.4s var(--ease-out-expo);
+}
+.card-title, .card-description {
+  transition: transform 0.4s var(--ease-out-expo);
+}
+.dashboard-card:hover .card-icon-wrapper { transform: scale(1.1) rotate(-5deg); }
+/* NEW: Content slides up on hover */
+.dashboard-card:hover .card-title { transform: translateY(-4px); }
+.dashboard-card:hover .card-description { transform: translateY(-2px); }
+.card-title { font-family: var(--font-display); font-size: 1.5rem; font-weight: 700; margin-bottom: 0.75rem; }
+.card-description { color: var(--text-secondary); line-height: 1.625; font-size: 0.95rem; flex-grow: 1; }
+
+/* 9. Card Themes */
+.theme-blue { --btn-color: var(--blue-btn); }
+.theme-blue .card-icon-wrapper { background-color: var(--blue-bg); }
+.theme-blue .card-icon { color: var(--blue-fg); }
+.theme-blue .card-button { background-color: var(--blue-btn); --ring-color: var(--blue-ring); }
+.theme-blue .card-button:hover { background-color: var(--blue-btn-hover); }
+
+.theme-green { --btn-color: var(--green-btn); }
+.theme-green .card-icon-wrapper { background-color: var(--green-bg); }
+.theme-green .card-icon { color: var(--green-fg); }
+.theme-green .card-button { background-color: var(--green-btn); --ring-color: var(--green-ring); }
+.theme-green .card-button:hover { background-color: var(--green-btn-hover); }
+
+.theme-purple { --btn-color: var(--purple-btn); }
+.theme-purple .card-icon-wrapper { background-color: var(--purple-bg); }
+.theme-purple .card-icon { color: var(--purple-fg); }
+.theme-purple .card-button { background-color: var(--purple-btn); --ring-color: var(--purple-ring); }
+.theme-purple .card-button:hover { background-color: var(--purple-btn-hover); }
+
+/* 10. Buttons (NEW Interactive Arrow & Gloss Effect) */
+.card-button {
+  margin-top: 2rem; width: 100%; color: #ffffff; font-weight: 600;
+  padding: 0.875rem 1.5rem; border-radius: 0.75rem;
+  transition: all 0.3s var(--ease-out-expo);
+  border: none; cursor: pointer; font-size: 1rem;
+  position: relative; overflow: hidden;
+  text-align: center;
+}
+/* NEW: Arrow icon created with CSS */
+.card-button::after {
+  content: '→';
+  position: absolute;
+  right: 1.5rem;
+  top: 50%;
+  transform: translateY(-50%) translateX(25px);
+  opacity: 0;
+  transition: all 0.4s var(--ease-out-expo);
+}
+.card-button:hover {
+  transform: scale(1.03);
+  padding-right: 3rem; /* Make space for arrow */
+}
+.card-button:hover::after {
+  transform: translateY(-50%) translateX(0);
+  opacity: 1;
+}
+.card-button:focus-visible { outline: 2px solid var(--ring-color); outline-offset: 3px; }
+
+/* 11. Icons */
+.card-icon { width: 2.25rem; height: 2.25rem; }
+.menu-icon { width: 1.25rem; height: 1.25rem; }
