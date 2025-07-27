@@ -4,20 +4,45 @@
   box-sizing: border-box;
 }
 
-/* These global styles might be better placed in a global CSS file like index.css,
-  but for this component, we'll keep them here as requested.
-*/
+.authpage-root {
+  position: relative;
+  min-height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.auth-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.auth-background canvas {
+  width: 100vw !important;
+  height: 100vh !important;
+  border-radius: 0 !important;
+}
+
 body, html, #root {
   height: 100%;
   margin: 0;
   font-family: 'Poppins', sans-serif;
-  background-color: #8CA0F7;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  background: none !important;
+  display: block;
+  justify-content: unset;
+  align-items: unset;
 }
 
 .container {
+  position: relative;
+  z-index: 1;
   width: 820px;
   max-width: 90vw;
   height: 460px;
@@ -28,26 +53,7 @@ body, html, #root {
   box-shadow:
     14px 50px 72px -25px rgba(0,0,0,0.25),
     inset 0 0 80px -30px rgba(0,0,0,0.05);
-  position: relative;
   user-select: none;
-}
-
-/* Animated background styles */
-.auth-background {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 0;
-  border-radius: 20px;
-  overflow: hidden;
-}
-
-.auth-background canvas {
-  width: 100% !important;
-  height: 100% !important;
-  border-radius: 20px;
 }
 
 .left {
@@ -734,5 +740,345 @@ button.login-btn:hover {
   }
   .coat, .coat-shadow, .coat-shadow-right, .stethoscope-tube-left, .stethoscope-tube-right, .stethoscope-ear-tip {
     display: none; /* hide some decorations on small */
+  }
+}
+
+/* Google login button styles */
+.google-login-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  padding: 12px 0;
+  margin-bottom: 22px;
+  background: #fff;
+  border: 1.5px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #444;
+  box-shadow: 0 2px 8px 0 rgba(60, 165, 138, 0.07);
+  cursor: pointer;
+  transition: box-shadow 0.2s, border-color 0.2s;
+  position: relative;
+}
+.google-login-btn:hover {
+  border-color: #3ca58a;
+  box-shadow: 0 4px 16px 0 rgba(60, 165, 138, 0.13);
+}
+.google-icon {
+  display: flex;
+  align-items: center;
+}
+.google-text {
+  flex: 1;
+  text-align: center;
+}
+
+/* Divider between Google and form */
+.divider {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  margin: 18px 0 18px 0;
+  color: #b0b0b0;
+  font-size: 0.95rem;
+  font-weight: 500;
+}
+.divider::before, .divider::after {
+  content: '';
+  flex: 1;
+  border-bottom: 1.5px solid #e0e0e0;
+  margin: 0 10px;
+}
+
+/* Modern password input */
+.password-wrapper.modern {
+  background: #f7fafd;
+  border-radius: 7px;
+  border: 1.5px solid #e0e0e0;
+  box-shadow: 0 1px 4px 0 rgba(60, 165, 138, 0.04);
+  padding-right: 38px;
+  margin-bottom: 20px;
+  transition: border-color 0.2s;
+}
+.password-wrapper.modern input {
+  border: none;
+  background: transparent;
+  box-shadow: none;
+  margin-bottom: 0;
+  padding: 10px 15px 10px 10px;
+  font-size: 1rem;
+  color: #333;
+}
+.password-wrapper.modern input:focus {
+  outline: none;
+}
+.toggle-password {
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  color: #3ca58a;
+  font-size: 1.1rem;
+  padding: 2px;
+  border-radius: 50%;
+  transition: background 0.2s, color 0.2s;
+  z-index: 2;
+}
+.toggle-password.active {
+  background: #e6f7f2;
+  color: #21715b;
+}
+.toggle-password:hover {
+  background: #e6f7f2;
+  color: #21715b;
+}
+
+/* Sign Up Modal Styles */
+.signup-modal-overlay {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(44, 62, 80, 0.25);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: fadeIn 0.2s;
+}
+.signup-modal {
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 8px 32px rgba(60, 165, 138, 0.18);
+  padding: 36px 32px 28px 32px;
+  min-width: 320px;
+  max-width: 90vw;
+  position: relative;
+  animation: popIn 0.25s;
+}
+.close-modal {
+  position: absolute;
+  top: 12px;
+  right: 16px;
+  background: none;
+  border: none;
+  font-size: 1.7rem;
+  color: #aaa;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+.close-modal:hover {
+  color: #e04d4d;
+}
+.signup-modal h2 {
+  margin-top: 0;
+  margin-bottom: 18px;
+  font-size: 1.4rem;
+  color: #3ca58a;
+  font-weight: 700;
+  text-align: center;
+}
+.signup-form {
+  display: flex;
+  flex-direction: column;
+  gap: 13px;
+}
+.signup-form label {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #474747cc;
+}
+.signup-form input {
+  padding: 10px 14px;
+  border-radius: 6px;
+  border: 1.5px solid #e0e0e0;
+  font-size: 1rem;
+  margin-bottom: 0;
+  background: #f7fafd;
+  color: #333;
+  transition: border-color 0.2s;
+}
+.signup-form input:focus {
+  border-color: #3ca58a;
+  outline: none;
+}
+.signup-btn {
+  margin-top: 10px;
+  padding: 10px 0;
+  border: none;
+  border-radius: 8px;
+  background: linear-gradient(90deg, #5971e9, #4db8e4);
+  color: #fff;
+  font-weight: 700;
+  font-size: 1rem;
+  cursor: pointer;
+  box-shadow: 0 4px 12px -3px #4db8e4a0;
+  transition: background 0.3s;
+}
+.signup-btn:hover {
+  background: linear-gradient(90deg, #4db8e4, #5971e9);
+}
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@keyframes popIn {
+  from { transform: scale(0.95); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+/* Responsive tweaks for modal */
+@media (max-width: 600px) {
+  .signup-modal {
+    padding: 18px 8px 18px 8px;
+    min-width: 0;
+  }
+}
+
+/* Improve spacing in login form */
+.right form {
+  gap: 6px;
+}
+.right label {
+  margin-bottom: 3px;
+}
+.right input {
+  margin-bottom: 14px;
+}
+
+/* Auth card styles */
+.auth-card {
+  background: #fff;
+  border-radius: 18px;
+  box-shadow: 0 8px 32px rgba(60, 165, 138, 0.13), 0 1.5px 8px #b3c6f7a0;
+  padding: 38px 36px 32px 36px;
+  min-width: 340px;
+  max-width: 100%;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  position: relative;
+  z-index: 2;
+}
+
+.tab-switcher {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 28px;
+  gap: 8px;
+}
+.tab {
+  background: none;
+  border: none;
+  font-size: 1.08rem;
+  font-weight: 600;
+  color: #7a7a7a;
+  padding: 8px 22px;
+  border-radius: 8px 8px 0 0;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+.tab.active {
+  background: #eaf6fa;
+  color: #3ca58a;
+  box-shadow: 0 2px 8px #eaf6fa;
+}
+
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+.form-title {
+  text-align: center;
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: #3ca58a;
+  margin-bottom: 18px;
+  margin-top: 0;
+}
+
+.floating-label-group {
+  position: relative;
+  margin-bottom: 0;
+  display: flex;
+  align-items: center;
+}
+.floating-label-group input {
+  width: 100%;
+  padding: 13px 40px 13px 12px;
+  font-size: 1rem;
+  border: 1.5px solid #e0e0e0;
+  border-radius: 7px;
+  background: #f7fafd;
+  color: #333;
+  outline: none;
+  transition: border-color 0.2s;
+  margin-bottom: 0;
+}
+.floating-label-group input:focus {
+  border-color: #3ca58a;
+}
+.floating-label-group label {
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: transparent;
+  color: #888;
+  font-size: 1rem;
+  pointer-events: none;
+  transition: 0.18s cubic-bezier(.4,0,.2,1);
+  padding: 0 2px;
+}
+.floating-label-group input:focus + label,
+.floating-label-group input:not(:placeholder-shown):not([value=""]) + label {
+  top: 2px;
+  left: 10px;
+  font-size: 0.82rem;
+  color: #3ca58a;
+  background: #f7fafd;
+  padding: 0 4px;
+}
+.floating-label-group .toggle-password {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  color: #3ca58a;
+  font-size: 1.1rem;
+  padding: 2px;
+  border-radius: 50%;
+  transition: background 0.2s, color 0.2s;
+  z-index: 2;
+}
+.floating-label-group .toggle-password.active,
+.floating-label-group .toggle-password:hover {
+  background: #e6f7f2;
+  color: #21715b;
+}
+
+.success-message {
+  font-size: 0.95rem;
+  color: #2e9d6b;
+  background: #eafaf3;
+  border-radius: 6px;
+  padding: 8px 10px;
+  margin-bottom: 2px;
+  text-align: center;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+}
+
+/* Responsive tweaks for auth card */
+@media (max-width: 600px) {
+  .auth-card {
+    padding: 18px 6px 18px 6px;
+    min-width: 0;
   }
 }
