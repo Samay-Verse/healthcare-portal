@@ -1,1084 +1,869 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+/* Responsive styles */
+@media (max-width: 768px) {
+  .container {
+    flex-direction: column;
+    height: auto;
+    min-height: 100vh;
+  }
+
+  .form-container {
+    width: 100%;
+    max-width: 100%;
+    position: relative;
+    transform: none !important;
+    opacity: 1 !important;
+    display: block;
+  }
+
+  .sign-up-container,
+  .sign-in-container {
+    display: block;
+  }
+
+  .overlay-container {
+    display: none;
+  }
+
+  .form-container form {
+    padding: 20px;
+    box-sizing: border-box;
+  }
+
+  input,
+  button {
+    width: 100%;
+    box-sizing: border-box;
+    font-size: 16px;
+  }
+
+  .social-container a {
+    margin: 0 10px;
+  }
+
+  .small-text,
+  .forgot {
+    font-size: 14px;
+  }
+
+  h1 {
+    font-size: 24px;
+  }
+}
+
+@media (max-width: 480px) {
+  .form-container form {
+    padding: 15px;
+  }
+
+  input,
+  button {
+    padding: 10px;
+    font-size: 14px;
+  }
+
+  .social-container a {
+    font-size: 18px;
+    margin: 0 8px;
+  }
+
+  h1 {
+    font-size: 20px;
+  }
+}
 
 * {
   box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
-.authpage-root {
-  position: relative;
-  min-height: 100vh;
-  width: 100vw;
-  overflow: hidden;
+.auth-body {
+  background: transparent;
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  font-family: 'Poppins', sans-serif;
+  min-height: 100vh;
+  overflow: hidden;
+  position: relative;
 }
 
-.auth-background {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  z-index: 0;
-  pointer-events: none;
-}
-
-.auth-background canvas {
+/* Iridescence background styles */
+.iridescence-container {
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
   width: 100vw !important;
   height: 100vh !important;
-  border-radius: 0 !important;
+  z-index: -1 !important;
 }
 
-body, html, #root {
-  height: 100%;
-  margin: 0;
-  font-family: 'Poppins', sans-serif;
-  background: none !important;
-  display: block;
-  justify-content: unset;
-  align-items: unset;
+.iridescence-container canvas {
+  width: 100% !important;
+  height: 100% !important;
+  display: block !important;
+}
+
+h1 {
+  font-weight: 700;
+  margin-bottom: 10px;
+  color: #2f2f2f;
+  font-size: 28px;
+}
+
+.overlay-panel h1 {
+    color: #333;
+}
+
+.small-text {
+  font-size: 12px;
+  color: #666;
+  margin: 10px 0;
 }
 
 .container {
-  position: relative;
-  z-index: 1;
-  width: 820px;
-  max-width: 90vw;
-  height: 460px;
-  background: linear-gradient(to right, #f3f7f9 50%, #e8edf1 50%);
+  background: #ffffff;
   border-radius: 20px;
-  display: flex;
+  box-shadow: 0 15px 25px rgba(0, 0, 0, 0.1);
+  position: relative;
   overflow: hidden;
-  box-shadow:
-    14px 50px 72px -25px rgba(0,0,0,0.25),
-    inset 0 0 80px -30px rgba(0,0,0,0.05);
-  user-select: none;
+  width: 700px;
+  max-width: 100%;
+  min-height: 450px;
 }
 
-.left {
-  width: 50%;
-  position: relative;
-  background: rgba(227, 240, 245, 0.85); /* Made semi-transparent to show background */
-  border-top-left-radius: 20px;
-  border-bottom-left-radius: 20px;
-  padding: 60px 45px 30px 40px;
-  color: #262626;
-  text-align: left;
-  overflow: visible;
-  z-index: 1;
-  backdrop-filter: blur(10px);
-}
-
-.left h1 {
-  font-size: 2.7rem;
-  margin: 0;
-  font-weight: 600;
-  letter-spacing: 0.06em;
-  line-height: 1.1;
-}
-
-.left h1 .highlight {
-  color: #50b7a6;
-}
-
-.left p {
-  font-size: 0.9rem;
-  margin-top: 20px;
-  line-height: 1.4;
-  color: #444;
-  max-width: 85%;
-}
-
-/* Animated doctor figure container */
-.doctor-wrapper {
-  position: absolute;
-  right: -110px;
-  bottom: 20px;
-  width: 250px;
-  height: 420px;
-  perspective: 1200px;
-}
-
-/* The doctor figure */
-.doctor {
-  width: 100%;
-  height: 100%;
-  background: #fff;
-  border-radius: 40% 60% 50% 50% / 45% 55% 45% 55%;
-  box-shadow:
-    inset -15px -8px 22px #d6cac1,
-    15px 15px 18px #b1b5c0;
-  position: relative;
-  transform-style: preserve-3d;
-  animation: doctorEntrance 2.6s ease forwards 0.2s;
-  transform-origin: center bottom;
-  animation-delay: 0.25s;
-}
-
-/* Head */
-.head {
-  position: absolute;
-  top: 15%;
-  left: 50%;
-  width: 140px;
-  height: 172px;
-  background: linear-gradient(145deg, #d4b48f, #ab8763);
-  border-radius: 60% 40% 60% 40% / 55% 55% 45% 45%;
-  box-shadow: inset -8px -10px 12px #a57547;
-  transform: translateX(-50%);
-  z-index: 10;
-}
-
-/* Hair */
-.hair {
+.form-container {
   position: absolute;
   top: 0;
-  left: 12px;
-  width: 70px;
-  height: 52px;
-  background: linear-gradient(125deg, #794914, #b38355);
-  border-radius: 70% 30% 20% 80% / 50% 70% 30% 50%;
-  filter: drop-shadow(1px -2px 0 rgba(0,0,0,0.05));
-  transform: rotate(-12deg);
-  z-index: 12;
+  height: 100%;
+  width: 50%;
+  transition: all 0.6s ease-in-out;
 }
 
-/* Eyes container */
-.eyes {
-  position: absolute;
-  bottom: 70px;
-  left: 50%;
-  width: 120px;
-  height: 40px;
-  display: flex;
-  justify-content: space-around;
-  transform: translateX(-50%);
+.sign-in-container {
+  left: 0;
+  z-index: 2;
+  opacity: 1;
+  visibility: visible;
+  transition: all 0.6s ease-in-out, opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
 }
 
-/* Eye base */
-.eye {
-  position: relative;
-  width: 20px;
-  height: 20px;
-  background: #fff;
-  border-radius: 50%;
-  box-shadow: inset 0 2px 3px #d9d9d9;
+.container.right-panel-active .sign-in-container {
+  transform: translateX(100%);
+  opacity: 0;
+  visibility: hidden;
 }
 
-/* Pupils */
-.pupil {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 9px;
-  height: 9px;
-  background: #222;
-  border-radius: 50%;
-  filter: drop-shadow(0 0 0.4px #0002);
-  transform: translate(-50%, -50%);
-  animation: pupilIdle 4.9s ease-in-out infinite alternate;
+.sign-up-container {
+  left: 0;
+  opacity: 0;
+  z-index: 1;
 }
 
-.eye.right .pupil {
-  animation-delay: 2.5s;
+.container.right-panel-active .sign-up-container {
+  transform: translateX(100%);
+  opacity: 1;
+  z-index: 5;
+  animation: show 0.6s;
 }
 
-/* Mouth */
-.mouth {
-  position: absolute;
-  bottom: 54px;
-  left: 50%;
-  width: 26px;
-  height: 14px;
-  border-radius: 0 0 18px 18px;
-  background: linear-gradient(145deg, #844a2a, #dc8f6b);
-  box-shadow: inset -1px 3px 2px #9b5736;
-  transform: translateX(-50%);
-  filter: drop-shadow(0 0 1px #7c4540);
-}
-
-/* Ear */
-.ear {
-  position: absolute;
-  top: 95px;
-  width: 36px;
-  height: 44px;
-  background: linear-gradient(110deg, #d4b48f, #aa865d);
-  border-radius: 60% 40% 40% 60% / 55% 45% 55% 45%;
-  box-shadow: inset -8px -10px 8px #b18f6c;
-}
-
-.ear.left {
-  left: -18px;
-}
-.ear.right {
-  right: -18px;
-}
-
-/* Nose */
-.nose {
-  position: absolute;
-  bottom: 93px;
-  left: 50%;
-  width: 10px;
-  height: 26px;
-  background: linear-gradient(30deg, #a87d65, #8d6453);
-  border-radius: 50% 60% 60% 50% / 70% 60% 60% 70%;
-  box-shadow: inset -1px 0 0 #895b4a;
-  filter: drop-shadow(0 0 0.5px #8e6b57);
-  transform: translateX(-50%);
-}
-
-/* Stethoscope main circle */
-.stethoscope-circle {
-  position: absolute;
-  top: 190px;
-  left: 42px;
-  width: 120px;
-  height: 120px;
-  border-radius: 50%;
-  background: linear-gradient(145deg, #46566d, #354058);
-  box-shadow:
-    inset -7px -7px 18px #5e7298,
-    inset 12px 9px 32px #2b3b56;
-  transform: translateX(-20px) scale(0.85);
-  filter: drop-shadow(0 2px 4px #272e38aa);
-}
-
-/* Stethoscope inner circle */
-.stethoscope-inner {
-  position: absolute;
-  top: 29px;
-  left: 29px;
-  width: 62px;
-  height: 62px;
-  border-radius: 50%;
-  background: linear-gradient(145deg, #b8d0e6, #aac7f5);
-  box-shadow: inset -5px -3px 10px #a2bbd9;
-  border: 3px solid #5a6c93;
-  filter: drop-shadow(0 1px 1px #8a94bfcc);
-  animation: innerGlow 3s ease alternate infinite;
-}
-
-/* Body base */
-.body {
-  position: absolute;
-  bottom: 0;
-  left: 50%;
-  width: 280px;
-  height: 280px;
-  background: linear-gradient(15deg, #dfeaf1, #c7d9e4);
-  border-radius: 60% 40% 50% 50% / 50% 50% 40% 60%;
-  box-shadow:
-    inset 6px 6px 10px #c9cddd88;
-  transform: translateX(-50%);
-  filter: drop-shadow(4px 9px 11px #2a3047cc);
-  transition: 0.4s;
-  z-index: 6;
-}
-
-/* Shirt */
-.shirt {
-  position: absolute;
-  top: 116px;
-  left: 62px;
-  width: 160px;
-  height: 160px;
-  background: linear-gradient(140deg, #2c3969, #1b274b);
-  border-radius: 68% 32% 65% 35% / 63% 45% 55% 38%;
-  box-shadow:
-    inset 6px 3px 5px #162443,
-    6px 3px 5px #3a518c;
-  filter: drop-shadow(2px 8px 8px #1e2e56cc);
-  transform-origin: center;
-  animation: shirtBob 3s ease-in-out infinite;
-  z-index: 8;
-}
-
-/* Coat Jacket shape */
-.coat {
-  position: absolute;
-  top: 72px;
-  left: 52px;
-  width: 185px;
-  height: 185px;
-  background: linear-gradient(45deg, #f5f9fc, #e8f3f8);
-  border-radius: 70% 40% 60% 40% / 45% 55% 45% 55%;
-  filter:
-    drop-shadow(6px 5px 5px #d5e0e7cc);
-  z-index: 10;
-  animation: coatShift 6s ease infinite;
-}
-
-/* Coat shadow area left */
-.coat-shadow {
-  position: absolute;
-  top: 65px;
-  left: 50px;
-  width: 50px;
-  height: 170px;
-  background: linear-gradient(145deg, #c1d4dfcc 0%, transparent 100%);
-  border-radius: 55% 25% 23% 27% / 15% 50% 10% 20%;
-  z-index: 11;
-  animation: coatShadowShift 6s ease infinite;
-}
-
-/* Coat shadow area right */
-.coat-shadow-right {
-  position: absolute;
-  top: 88px;
-  left: 148px;
-  width: 56px;
-  height: 135px;
-  background: linear-gradient(145deg, transparent 0%, #c8d7efcc 100%);
-  border-radius: 22% 25% 55% 27% / 20% 20% 50% 10%;
-  filter: blur(3px);
-  z-index: 8;
-  animation: coatShadowRightShift 6s ease infinite;
-}
-
-/* Stethoscope tubes */
-.stethoscope-tube-left {
-  position: absolute;
-  top: 200px;
-  left: 71px;
-  width: 6px;
-  height: 80px;
-  background: linear-gradient(145deg, #2b466f, #1d2b4e);
-  border-radius: 12px;
-  transform-origin: top;
-  animation: tubeSwing 6s ease infinite;
-  filter: drop-shadow(0 1px 1px #122337cc);
-  z-index: 12;
-}
-
-.stethoscope-tube-right {
-  position: absolute;
-  top: 190px;
-  left: 126px;
-  width: 6px;
-  height: 85px;
-  background: linear-gradient(145deg, #2b466f, #1d2b4e);
-  border-radius: 12px;
-  transform-origin: top;
-  animation: tubeSwingReverse 6s ease infinite;
-  filter: drop-shadow(0 1px 1px #122337cc);
-  z-index: 12;
-}
-
-/* Stethoscope ear tips */
-.stethoscope-ear-tip {
-  position: absolute;
-  top: 270px;
-  width: 12px;
-  height: 10px;
-  background: #2b466f;
-  border-radius: 12px 12px 30% 30% / 40% 40% 100% 100%;
-  filter: drop-shadow(0 2px 5px #1a2d4a);
-  z-index: 12;
-}
-.stethoscope-ear-tip.left {
-  left: 65px;
-  transform-origin: center;
-  animation: earTipMoveLeft 6s ease infinite;
-}
-.stethoscope-ear-tip.right {
-  left: 130px;
-  transform-origin: center;
-  animation: earTipMoveRight 6s ease infinite;
-}
-
-/* Animations */
-@keyframes doctorEntrance {
-  0% {
-    transform: rotateY(180deg) translateZ(-360px);
+@keyframes show {
+  0%,
+  49.99% {
     opacity: 0;
+    z-index: 1;
   }
+
+  50%,
   100% {
-    transform: rotateY(0deg) translateZ(0);
     opacity: 1;
+    z-index: 5;
   }
 }
 
-@keyframes pupilIdle {
-  0%, 100% {
-    transform: translate(-50%, -50%) translateX(0);
+/* New animation for hiding/showing sign-in content */
+@keyframes hideSignIn {
+  0% {
+    opacity: 1;
+    visibility: visible;
   }
   50% {
-    transform: translate(-50%, -50%) translateX(4px) translateY(1px);
-  }
-}
-
-@keyframes innerGlow {
-  0% {
-    box-shadow: inset -5px -3px 10px #a2bbd9;
+    opacity: 0;
+    visibility: hidden;
   }
   100% {
-    box-shadow: inset -5px -3px 22px #8cacd1;
+    opacity: 0;
+    visibility: hidden;
   }
 }
 
-@keyframes shirtBob {
-  0%, 100% { transform: translateY(0) }
-  50% { transform: translateY(4px) }
+@keyframes showSignIn {
+  0% {
+    opacity: 0;
+    visibility: hidden;
+  }
+  50% {
+    opacity: 0;
+    visibility: hidden;
+  }
+  100% {
+    opacity: 1;
+    visibility: visible;
+  }
 }
 
-@keyframes coatShift {
-  0%, 100% { filter: drop-shadow(6px 5px 5px #d5e0e7cc) }
-  50% { filter: drop-shadow(30px 10px 25px #c2ccdbcc) }
-}
-
-@keyframes coatShadowShift {
-  0%, 100% { left: 50px; }
-  50% { left: 35px; opacity: 0.8; }
-}
-
-@keyframes coatShadowRightShift {
-  0%, 100% { left: 148px; }
-  50% { left: 168px; opacity: 0.75; }
-}
-
-@keyframes tubeSwing {
-  0%, 100% { transform: rotate(4deg); }
-  50% { transform: rotate(-6deg); }
-}
-
-@keyframes tubeSwingReverse {
-  0%, 100% { transform: rotate(-8deg); }
-  50% { transform: rotate(6deg); }
-}
-
-@keyframes earTipMoveLeft {
-  0%, 100% { transform: rotate(10deg); }
-  50% { transform: rotate(-6deg); }
-}
-
-@keyframes earTipMoveRight {
-  0%, 100% { transform: rotate(-10deg); }
-  50% { transform: rotate(6deg); }
-}
-
-/* Right panel styles */
-.right {
+.overlay-container {
+  position: absolute;
+  top: 0;
+  left: 50%;
   width: 50%;
-  padding: 73px 45px 28px 60px;
-  background-color: rgba(243, 247, 249, 0.85);
-  border-top-right-radius: 20px;
-  border-bottom-right-radius: 20px;
-  box-shadow:
-    inset 10px 10px 16px rgba(255 255 255 / 0.9),
-    inset -5px -5px 11px rgba(66 66 66 / 0.08);
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  color: #333;
-  font-size: 14px;
-  user-select: text;
-  position: relative;
-  z-index: 1;
-  backdrop-filter: blur(10px);
+  height: 100%;
+  overflow: hidden;
+  transition: transform 0.6s ease-in-out;
+  z-index: 100;
 }
 
-.logo {
-  font-weight: 600;
-  font-size: 1.25rem;
-  margin-bottom: 30px;
-  letter-spacing: 0.02em;
-  color: #3ca58a;
-  user-select: none;
+.container.right-panel-active .overlay-container {
+  transform: translateX(-100%);
+}
+
+.overlay {
+  background: linear-gradient(135deg, #d7d7d7, #b0b0b0);
+  color: #333;
+  position: relative;
+  left: -100%;
+  height: 100%;
+  width: 200%;
+  transform: translateX(0);
+  transition: transform 0.6s ease-in-out;
+}
+
+.container.right-panel-active .overlay {
+  transform: translateX(50%);
+}
+
+.overlay-panel {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  padding: 0 40px;
+  text-align: center;
+  top: 0;
+  height: 100%;
+  width: 50%;
+  transition: transform 0.6s ease-in-out;
+}
+
+.overlay-left {
+  transform: translateX(-20%);
+}
+
+.container.right-panel-active .overlay-left {
+  transform: translateX(0);
+}
+
+.overlay-right {
+  right: 0;
+  transform: translateX(0);
+}
+
+.container.right-panel-active .overlay-right {
+  transform: translateX(20%);
 }
 
 form {
-  width: 100%;
+  background: #ffffff;
   display: flex;
+  align-items: center;
+  justify-content: center;
   flex-direction: column;
-}
-
-label {
-  margin-bottom: 6px;
-  font-weight: 600;
-  font-size: 0.85rem;
-  color: #474747cc;
+  padding: 0 50px;
+  height: 100%;
+  text-align: center;
 }
 
 input {
-  padding: 10px 15px;
-  margin-bottom: 20px;
-  font-size: 0.9rem;
-  border-radius: 5px;
-  border: 1.5px solid #ddd;
-  outline-offset: 0;
-  transition: border-color 0.25s ease;
-  color: #404040;
-  box-shadow: inset 0 4px 5px #fff;
-  user-select: text;
-}
-
-input::placeholder {
-  font-style: italic;
-  font-size: 0.8rem;
-  color: #989898;
+  background: #f0f0f0;
+  border: none;
+  border-radius: 8px;
+  padding: 12px 15px;
+  margin: 10px 0;
+  width: 100%;
+  font-size: 14px;
 }
 
 input:focus {
-  border-color: #3ca58a;
-  box-shadow: 0 0 7px 1px rgb(60 165 138 / 0.35);
-}
-
-/* Password input container */
-.password-wrapper {
-  display: flex;
-  align-items: center;
-  position: relative;
-}
-
-.toggle-password {
-  position: absolute;
-  right: 15px;
-  cursor: pointer;
-  background: none;
-  border: none;
   outline: none;
-  font-size: 18px;
-  color: #888;
-  user-select: none;
-  transition: color 0.3s ease;
-  width: 26px;
-  height: 26px;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.2);
+}
+
+button {
+  border-radius: 25px;
+  border: none;
+  background: #4caf50;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 600;
+  padding: 10px 40px;
+  text-transform: uppercase;
+  cursor: pointer;
+  margin-top: 15px;
+  transition: all 0.3s ease;
+}
+
+button:hover {
+  background: #43a047;
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(67, 160, 71, 0.4);
+}
+
+button.ghost {
+  background: transparent;
+  border: 2px solid #ffffff;
+  color: #ffffff;
+  margin-top: 20px;
+}
+
+button.ghost:hover {
+  background: #ffffff;
+  color: #4caf50;
+}
+
+.social-container {
+  margin: 10px 0 20px;
+  border-bottom: 1px solid #ffffff;
+  padding-bottom: 15px;
+  width: 80%;
+  display: flex;
+  justify-content: center;
+}
+
+.social-container a {
+  border: 1px solid #ffffff;
+  border-radius: 50%;
   display: flex;
   justify-content: center;
   align-items: center;
-  border-radius: 5px;
-}
-.toggle-password:hover {
-  color: #4a9882;
-  background: #def4ee;
-}
-
-/* Error style */
-.password-wrapper.error input {
-  border-color: #e04d4d !important;
-  box-shadow: 0 0 7px 1px #e04d4d80 !important;
+  margin: 0 8px;
+  height: 45px;
+  width: 45px;
+  font-size: 18px;
+  color: #fcfbfb;
+  transition: all 0.3s ease;
 }
 
-.error-message {
-  font-size: 0.75rem;
-  color: #e04d4d;
-  margin-top: -16px;
-  margin-bottom: 15px;
-  font-weight: 600;
-  user-select: none;
-  letter-spacing: 0.02em;
+.social-container a:hover {
+  background: #ffffff;
+  color: #101010;
+  border-color: #ffffff;
 }
 
-button.login-btn {
-  width: 130px;
-  padding: 10px 15px;
-  border: none;
-  border-radius: 16px;
-  color: white;
-  background: linear-gradient(90deg, #5971e9, #4db8e4);
-  font-weight: 600;
-  letter-spacing: 0.06em;
-  font-size: 0.9rem;
-  cursor: pointer;
-  box-shadow: 0 7px 6px -5px rgb(48 98 230 / 0.8);
-  transition: background 0.4s ease;
-  margin: 0 auto 22px auto;
-  user-select: none;
-  user-drag: none;
-}
-button.login-btn:hover {
-  background: linear-gradient(90deg, #4db8e4, #5971e9);
-  box-shadow: 0 10px 18px -5px rgb(79 138 241 / 0.8);
+/* --- NEW AND UPDATED SIGN UP STYLES --- */
+
+.signup-heading {
+    font-weight: 600;
+    color: #f9f8f8;
+    margin-bottom: 25px;
+    font-size: 22px;
 }
 
-.links {
-  text-align: center;
-  font-size: 0.85rem;
-  letter-spacing: 0.02em;
-  color: #3ca588a5;
-  margin-top: -8px;
-  margin-bottom: 6px;
-  user-select: none;
-}
-
-.links a {
-  font-weight: 600;
-  text-decoration: none;
-  color: #3ca58a;
-  transition: color 0.3s ease;
-  cursor: pointer;
-  user-select: text;
-}
-.links a:hover {
-  color: #21715b;
-}
-
-.bottom-text {
-  font-size: 0.84rem;
-  font-weight: 600;
-  text-align: center;
-  color: #333;
-  margin-top: 8px;
-}
-
-.bottom-text a {
-  color: #3ca58a;
-  text-decoration: none;
-  cursor: pointer;
-  transition: color 0.3s ease;
-  font-weight: 600;
-}
-.bottom-text a:hover {
-  color: #21715b;
-  text-decoration: underline;
-}
-
-/* Decorative circles on left panel */
-.decor-circle {
-  position: absolute;
-  border-radius: 50%;
-  opacity: 0.2;
-  background-color: #50b7a6;
-  filter: blur(6px);
-  user-select: none;
-  pointer-events: none;
-}
-.decor-circle1 {
-  width: 130px;
-  height: 130px;
-  top: -40px;
-  left: -30px;
-}
-.decor-circle2 {
-  width: 46px;
-  height: 46px;
-  top: 120px;
-  left: 25px;
-  background-color: #a8d6d2;
-  opacity: 0.25;
-  filter: blur(2px);
-}
-.decor-circle3 {
-  width: 35px;
-  height: 35px;
-  bottom: 17px;
-  left: 15px;
-  background-color: #608c8a;
-  opacity: 0.14;
-  filter: blur(1px);
-}
-
-/* Small rings */
-.ring {
-  position: absolute;
-  border-radius: 50%;
-  border: 3.7px solid #50b7a6;
-  opacity: 0.25;
-  background: transparent;
-  user-select: none;
-  pointer-events: none;
-  filter: drop-shadow(0 0 1px #50b7a6a3);
-  box-shadow: none !important;
-}
-.ring1 {
-  width: 56px;
-  height: 56px;
-  top: 30px;
-  right: 30px;
-}
-.ring2 {
-  width: 24px;
-  height: 24px;
-  top: 130px;
-  right: 45px;
-  border-color: #f7d8b2;
-  filter: drop-shadow(0 0 2px #f9c77d90);
-  opacity: 0.3;
-}
-
-/* Responsive tweaks */
-@media (max-width: 880px) {
-  .container {
-    width: 100%;
-    border-radius: 12px;
-    height: auto;
-    flex-wrap: wrap;
-    padding-bottom: 30px;
-  }
-  .left, .right {
-    width: 100%;
-    border-radius: 12px;
-    padding: 30px 30px 35px;
-  }
-  .doctor-wrapper {
-    position: relative;
-    right: auto;
-    bottom: auto;
-    width: 100%;
-    height: 260px;
-    margin-top: -75px;
-    perspective: none;
+.social-auth-button {
     display: flex;
     align-items: center;
     justify-content: center;
-  }
-  .doctor {
-    width: 160px;
-    height: 260px;
-    border-radius: 50% 50% 40% 40% / 50% 50% 50% 50%;
-    animation: none;
-    transform: rotateY(0);
-    filter: drop-shadow(1px 7px 8px #36457faa);
-  }
-  .body {
-    width: 160px;
-    height: 160px;
-    bottom: 0;
-  }
-  .coat, .coat-shadow, .coat-shadow-right, .stethoscope-tube-left, .stethoscope-tube-right, .stethoscope-ear-tip {
-    display: none; /* hide some decorations on small */
-  }
+    text-decoration: none;
+    border-radius: 25px;
+    padding: 10px 25px;
+    font-size: 14px;
+    font-weight: 600;
+    font-family: 'Poppins', sans-serif;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    width: 100%;
+    margin-bottom: 15px;
+    gap: 15px;
 }
 
-/* Google login button styles */
-.google-login-btn {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  width: 100%;
-  padding: 12px 0;
-  margin-bottom: 22px;
-  background: #fff;
-  border: 1.5px solid #e0e0e0;
-  border-radius: 8px;
-  font-size: 1rem;
-  font-weight: 600;
-  color: #444;
-  box-shadow: 0 2px 8px 0 rgba(60, 165, 138, 0.07);
-  cursor: pointer;
-  transition: box-shadow 0.2s, border-color 0.2s;
-  position: relative;
+.google-login-button {
+    background-color: #ffffff;
+    color: #444;
+    border: 1px solid #ddd;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
-.google-login-btn:hover {
-  border-color: #3ca58a;
-  box-shadow: 0 4px 16px 0 rgba(60, 165, 138, 0.13);
+
+.google-login-button:hover {
+    background-color: #f7f7f7;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
 }
+
+.github-login-button {
+    background-color: #333;
+    color: #fff;
+    border: 1px solid #333;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.github-login-button:hover {
+    background-color: #000;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.github-login-button i {
+    font-size: 20px;
+}
+
 .google-icon {
-  display: flex;
-  align-items: center;
+  width: 20px;
+  height: 20px;
 }
-.google-text {
-  flex: 1;
-  text-align: center;
-}
+/* --- END OF NEW STYLES --- */
 
-/* Divider between Google and form */
-.divider {
-  display: flex;
-  align-items: center;
-  text-align: center;
-  margin: 18px 0 18px 0;
-  color: #b0b0b0;
-  font-size: 0.95rem;
-  font-weight: 500;
-}
-.divider::before, .divider::after {
-  content: '';
-  flex: 1;
-  border-bottom: 1.5px solid #e0e0e0;
-  margin: 0 10px;
-}
-
-/* Modern password input */
-.password-wrapper.modern {
-  background: #f7fafd;
-  border-radius: 7px;
-  border: 1.5px solid #e0e0e0;
-  box-shadow: 0 1px 4px 0 rgba(60, 165, 138, 0.04);
-  padding-right: 38px;
-  margin-bottom: 20px;
-  transition: border-color 0.2s;
-}
-.password-wrapper.modern input {
-  border: none;
-  background: transparent;
-  box-shadow: none;
-  margin-bottom: 0;
-  padding: 10px 15px 10px 10px;
-  font-size: 1rem;
-  color: #333;
-}
-.password-wrapper.modern input:focus {
-  outline: none;
-}
-.toggle-password {
-  right: 10px;
-  top: 50%;
-  transform: translateY(-50%);
-  background: none;
-  border: none;
-  color: #3ca58a;
-  font-size: 1.1rem;
-  padding: 2px;
-  border-radius: 50%;
-  transition: background 0.2s, color 0.2s;
-  z-index: 2;
-}
-.toggle-password.active {
-  background: #e6f7f2;
-  color: #21715b;
-}
-.toggle-password:hover {
-  background: #e6f7f2;
-  color: #21715b;
-}
-
-/* Sign Up Modal Styles */
-.signup-modal-overlay {
-  position: fixed;
-  top: 0; left: 0; right: 0; bottom: 0;
-  background: rgba(44, 62, 80, 0.25);
-  z-index: 1000;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  animation: fadeIn 0.2s;
-}
-.signup-modal {
-  background: #fff;
-  border-radius: 16px;
-  box-shadow: 0 8px 32px rgba(60, 165, 138, 0.18);
-  padding: 36px 32px 28px 32px;
-  min-width: 320px;
-  max-width: 90vw;
-  position: relative;
-  animation: popIn 0.25s;
-}
-.close-modal {
-  position: absolute;
-  top: 12px;
-  right: 16px;
-  background: none;
-  border: none;
-  font-size: 1.7rem;
-  color: #aaa;
-  cursor: pointer;
-  transition: color 0.2s;
-}
-.close-modal:hover {
-  color: #e04d4d;
-}
-.signup-modal h2 {
-  margin-top: 0;
-  margin-bottom: 18px;
-  font-size: 1.4rem;
-  color: #3ca58a;
-  font-weight: 700;
-  text-align: center;
-}
-.signup-form {
-  display: flex;
-  flex-direction: column;
-  gap: 13px;
-}
-.signup-form label {
-  font-size: 0.95rem;
-  font-weight: 600;
-  color: #474747cc;
-}
-.signup-form input {
-  padding: 10px 14px;
-  border-radius: 6px;
-  border: 1.5px solid #e0e0e0;
-  font-size: 1rem;
-  margin-bottom: 0;
-  background: #f7fafd;
-  color: #333;
-  transition: border-color 0.2s;
-}
-.signup-form input:focus {
-  border-color: #3ca58a;
-  outline: none;
-}
-.signup-btn {
+.error-message,
+.success-message {
+  font-size: 12px;
   margin-top: 10px;
-  padding: 10px 0;
-  border: none;
-  border-radius: 8px;
-  background: linear-gradient(90deg, #5971e9, #4db8e4);
-  color: #fff;
-  font-weight: 700;
-  font-size: 1rem;
-  cursor: pointer;
-  box-shadow: 0 4px 12px -3px #4db8e4a0;
-  transition: background 0.3s;
-}
-.signup-btn:hover {
-  background: linear-gradient(90deg, #4db8e4, #5971e9);
-}
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
-@keyframes popIn {
-  from { transform: scale(0.95); opacity: 0; }
-  to { transform: scale(1); opacity: 1; }
+  display: none;
 }
 
-/* Responsive tweaks for modal */
-@media (max-width: 600px) {
-  .signup-modal {
-    padding: 18px 8px 18px 8px;
-    min-width: 0;
-  }
-}
-
-/* Improve spacing in login form */
-.right form {
-  gap: 6px;
-}
-.right label {
-  margin-bottom: 3px;
-}
-.right input {
-  margin-bottom: 14px;
-}
-
-/* Auth card styles */
-.auth-card {
-  background: #fff;
-  border-radius: 18px;
-  box-shadow: 0 8px 32px rgba(60, 165, 138, 0.13), 0 1.5px 8px #b3c6f7a0;
-  padding: 38px 36px 32px 36px;
-  min-width: 340px;
-  max-width: 100%;
-  margin: 0 auto;
-  display: flex;
-  flex-direction: column;
-  align-items: stretch;
-  position: relative;
-  z-index: 2;
-}
-
-.tab-switcher {
-  display: flex;
-  justify-content: center;
-  margin-bottom: 28px;
-  gap: 8px;
-}
-.tab {
-  background: none;
-  border: none;
-  font-size: 1.08rem;
-  font-weight: 600;
-  color: #7a7a7a;
-  padding: 8px 22px;
-  border-radius: 8px 8px 0 0;
-  cursor: pointer;
-  transition: background 0.2s, color 0.2s;
-}
-.tab.active {
-  background: #eaf6fa;
-  color: #3ca58a;
-  box-shadow: 0 2px 8px #eaf6fa;
-}
-
-.auth-form {
-  display: flex;
-  flex-direction: column;
-  gap: 18px;
-}
-.form-title {
-  text-align: center;
-  font-size: 1.35rem;
-  font-weight: 700;
-  color: #3ca58a;
-  margin-bottom: 18px;
-  margin-top: 0;
-}
-
-.floating-label-group {
-  position: relative;
-  margin-bottom: 0;
-  display: flex;
-  align-items: center;
-}
-.floating-label-group input {
-  width: 100%;
-  padding: 13px 40px 13px 12px;
-  font-size: 1rem;
-  border: 1.5px solid #e0e0e0;
-  border-radius: 7px;
-  background: #f7fafd;
-  color: #333;
-  outline: none;
-  transition: border-color 0.2s;
-  margin-bottom: 0;
-}
-.floating-label-group input:focus {
-  border-color: #3ca58a;
-}
-.floating-label-group label {
-  position: absolute;
-  left: 14px;
-  top: 50%;
-  transform: translateY(-50%);
-  background: transparent;
-  color: #888;
-  font-size: 1rem;
-  pointer-events: none;
-  transition: 0.18s cubic-bezier(.4,0,.2,1);
-  padding: 0 2px;
-}
-.floating-label-group input:focus + label,
-.floating-label-group input:not(:placeholder-shown):not([value=""]) + label {
-  top: 2px;
-  left: 10px;
-  font-size: 0.82rem;
-  color: #3ca58a;
-  background: #f7fafd;
-  padding: 0 4px;
-}
-.floating-label-group .toggle-password {
-  position: absolute;
-  right: 10px;
-  top: 50%;
-  transform: translateY(-50%);
-  background: none;
-  border: none;
-  color: #3ca58a;
-  font-size: 1.1rem;
-  padding: 2px;
-  border-radius: 50%;
-  transition: background 0.2s, color 0.2s;
-  z-index: 2;
-}
-.floating-label-group .toggle-password.active,
-.floating-label-group .toggle-password:hover {
-  background: #e6f7f2;
-  color: #21715b;
+.error-message {
+  color: #dc2626;
 }
 
 .success-message {
-  font-size: 0.95rem;
-  color: #2e9d6b;
-  background: #eafaf3;
-  border-radius: 6px;
-  padding: 8px 10px;
-  margin-bottom: 2px;
-  text-align: center;
-  font-weight: 600;
-  letter-spacing: 0.01em;
+  color: #2f855a;
 }
 
-/* Responsive tweaks for auth card */
-@media (max-width: 600px) {
-  .auth-card {
-    padding: 18px 6px 18px 6px;
-    min-width: 0;
+canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: -1;
+  width: 100%;
+  height: 100%;
+}
+
+/* Responsive styles for mobile devices */
+@media (max-width: 768px) {
+  .container {
+    width: 100%;
+    min-height: auto;
+    border-radius: 0;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .form-container {
+    position: relative;
+    width: 100%;
+    height: auto;
+    min-height: 20vh;
+    transform: none !important;
+    opacity: 1 !important;
+  }
+
+  .sign-in-container,
+  .sign-up-container {
+    position: relative;
+    left: 0;
+    display: block;
+  }
+
+  /* .container.right-panel-active .sign-in-container {
+    display: none;
+  }
+
+  .container.right-panel-active .sign-up-container {
+    display: block;
+  }
+
+  .overlay-container {
+    display: none;
+  } */
+
+  form {
+    padding: 20px;
+  }
+
+  input {
+    padding: 10px;
+    font-size: 16px;
+  }
+
+  button {
+    padding: 10px 30px;
+    font-size: 14px;
+  }
+
+  .social-container {
+    width: 100%;
+  }
+
+  .social-container a {
+    height: 40px;
+    width: 40px;
+    font-size: 16px;
+    margin: 0 10px;
+  }
+
+  h1 {
+    font-size: 24px;
+  }
+
+  .small-text {
+    font-size: 14px;
   }
 }
+
+@media (max-width: 480px) {
+  form {
+    padding: 15px;
+  }
+
+  input {
+    font-size: 14px;
+    padding: 8px;
+  }
+
+  button {
+    padding: 8px 25px;
+    font-size: 12px;
+  }
+
+  .social-container a {
+    height: 35px;
+    width: 35px;
+    font-size: 14px;
+    margin: 0 8px;
+  }
+
+  h1 {
+    font-size: 20px;
+  }
+
+  .small-text {
+    font-size: 12px;
+  }
+}
+
+
+
+/* --- NEW STYLES FOR FROSTED GLASS EFFECT --- */
+
+/* Apply the main effect to the entire container */
+.container {
+  background: rgba(255, 255, 255, 0.15); /* Semi-transparent white */
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px); /* For Safari */
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 20px;
+  box-shadow: 0 15px 25px rgba(0, 0, 0, 0.1);
+}
+
+/* Make the overlay slightly different */
+.overlay {
+  background: transparent; /* Overlay doesn't need its own color */
+}
+
+/* Update text colors for readability on the new background */
+/* .form-container h1, .form-container .small-text, .form-container .forgot {
+  color: #FFFFFF;
+} */
+
+.form-container .small-text {
+    opacity: 0.8;
+}
+
+.overlay-panel h1, .overlay-panel p {
+    color: #FFFFFF;
+}
+
+
+/* Style input fields to match */
+input {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #FFFFFF;
+  border-radius: 8px;
+  padding: 12px 15px;
+  margin: 10px 0;
+  width: 100%;
+  font-size: 14px;
+}
+
+input::placeholder {
+  color: rgba(255, 255, 255, 0.6);
+}
+
+input:focus {
+  outline: none;
+  box-shadow: 0 0 8px rgba(255, 255, 255, 0.3);
+}
+
+/* Update the main Sign In button */
+button {
+  border-radius: 25px;
+  border: none;
+  background: #FFFFFF; /* Solid white background */
+  color: #2D3748; /* Dark text */
+  font-size: 14px;
+  font-weight: 600;
+  padding: 10px 40px;
+  text-transform: uppercase;
+  cursor: pointer;
+  margin-top: 15px;
+  transition: all 0.3s ease;
+}
+
+button:hover {
+  transform: scale(1.05);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+/* Update the ghost buttons on the overlay */
+button.ghost {
+  background: transparent;
+  border: 2px solid #FFFFFF;
+  color: #FFFFFF;
+}
+
+button.ghost:hover {
+  background: #FFFFFF;
+  color: #333; /* Dark text on hover */
+}
+
+/* Keep the social buttons as they are, they look good! */
+.social-auth-button.github-login-button, .social-auth-button.google-login-button {
+    border: none;
+}
+
+
+/*
+ * In authpage.css, apply these changes.
+ * This will unify the look of both panels.
+*/
+
+/* Ensure the main container has the frosted glass effect */
+.container {
+  background: rgba(255, 255, 255, 0.1); /* Single source of truth for the background */
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 20px;
+  box-shadow: 0 15px 25px rgba(0, 0, 0, 0.1);
+}
+
+/* --- THE KEY CHANGE --- */
+/* Remove individual backgrounds from the form and overlay */
+.form-container form,
+.overlay {
+  background: transparent; /* This makes the panels seamless */
+}
+
+
+/* Add a center border divider */
+.container::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 2px;
+  height: 60%;
+  background: linear-gradient(
+    to bottom,
+    transparent,
+    rgba(255, 255, 255, 0.3),
+    rgba(255, 255, 255, 0.3),
+    transparent
+  );
+  z-index: 10;
+  pointer-events: none;
+}
+
+@media (max-width: 768px) {
+  .container::before {
+    display: none;
+  }
+  .container::after {
+    content: '';
+    position: absolute;
+    left: 5%;
+    right: 5%;
+    top: 50%;
+    height: 2px;
+    background: linear-gradient(
+      to right,
+      transparent,
+      rgba(255, 255, 255, 0.3),
+      rgba(255, 255, 255, 0.3),
+      transparent
+    );
+    z-index: 10;
+    pointer-events: none;
+    display: block;
+  }
+  .form-container .sign-in-container{
+    border-bottom: none;
+  }
+}
+
+
+/* --- TEXT COLOR UNIFICATION --- */
+
+/* All primary text should be high-contrast */
+h1, .overlay-panel p, .forgot {
+  color: #FFFFFF;
+}
+.forgot {
+  color: #ffffff;
+}
+
+.forgot:hover {
+  color: #121111;
+  transition: 0.5s;
+}
+
+
+
+/* Secondary text can be slightly dimmer */
+.small-text {
+  color: rgba(255, 255, 255, 0.75);
+}
+
+/* Ensure input text is also white */
+input {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #FFFFFF;
+}
+
+input::placeholder {
+  color: rgba(255, 255, 255, 0.6);
+}
+
+
+/* New responsive styles */
+.social-buttons-container {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.divider {
+  display: flex;
+  align-items: center;
+  margin: 20px 0;
+  width: 100%;
+}
+
+.divider::before,
+.divider::after {
+  content: "";
+  flex: 1;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.divider-text {
+  padding: 0 10px;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 14px;
+}
+
+.email-signup-button {
+  background: rgba(255, 255, 255, 0.1) !important;
+  border: 1px solid rgba(255, 255, 255, 0.3) !important;
+  color: white !important;
+}
+
+.switch-auth-method {
+  margin-top: 20px;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 14px;
+}
+
+.switch-auth-method span {
+  color: white;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+/* Enhanced mobile styles */
+@media (max-width: 768px) {
+  .container {
+    width: 90%;
+    margin: 20px auto;
+    min-height: auto;
+    border-radius: 20px;
+  }
+
+  .form-container {
+    padding: 30px 20px;
+  }
+
+  .social-auth-button {
+    padding: 12px 20px;
+    font-size: 14px;
+    gap: 10px;
+  }
+
+  .social-container {
+    display: none;
+  }
+
+  .small-text {
+    display: none;
+  }
+
+  .overlay-container {
+    display: none;
+  }
+
+  .switch-auth-method {
+    display: block;
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    width: 95%;
+    margin: 10px auto;
+    border-radius: 15px;
+  }
+
+  .form-container {
+    padding: 25px 15px;
+  }
+
+  .social-auth-button {
+    padding: 10px 15px;
+    font-size: 13px;
+  }
+
+  h1, .signup-heading {
+    font-size: 22px;
+  }
+
+  input, button {
+    padding: 12px 15px;
+  }
+}
+
+/* Hide overlay panels on mobile */
+@media (max-width: 768px) {
+  .overlay-container {
+    display: none;
+  }
+
+  /* Show switch auth method link on mobile */
+  .switch-auth-method {
+    display: block;
+    text-align: center;
+    margin-top: 20px;
+  }
+}
+
