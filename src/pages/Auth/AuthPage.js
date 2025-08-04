@@ -4,41 +4,40 @@ import './AuthPage.css';
 
 const AuthPage = () => {
   const [showPassword, setShowPassword] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
+  const [successMessage, setSuccessMessage] = useState('');
+
   useEffect(() => {
     const signUpButton = document.getElementById('signUp');
     const signInButton = document.getElementById('signIn');
     const container = document.getElementById('container');
     const signInContainer = document.querySelector('.sign-in-container');
-    
+    const signUpContainer = document.querySelector('.sign-up-container');
+    const switchAuthMethod = document.getElementById('switch-auth-method');
+
     const handleSignUpClick = () => {
-      // First hide the sign-in content
-      if (signInContainer) {
-        signInContainer.style.opacity = '0';
-        signInContainer.style.visibility = 'hidden';
-      }
-      
-      // After a short delay, move the container
-      setTimeout(() => {
-        container.classList.add('right-panel-active');
-      }, 300);
+      container.classList.add('right-panel-active');
     };
 
     const handleSignInClick = () => {
-      // Remove the right-panel-active class first
       container.classList.remove('right-panel-active');
-      
-      // After the slide animation completes, show the sign-in content
-      setTimeout(() => {
-        if (signInContainer) {
-          signInContainer.style.opacity = '1';
-          signInContainer.style.visibility = 'visible';
-        }
-      }, 600); // Match the CSS transition duration
     };
-
+    
+    const handleSwitchAuthMethod = () => {
+      if (container.classList.contains('right-panel-active')) {
+        handleSignInClick();
+      } else {
+        handleSignUpClick();
+      }
+    };
+    
     if (signUpButton && signInButton && container) {
       signUpButton.addEventListener('click', handleSignUpClick);
       signInButton.addEventListener('click', handleSignInClick);
+    }
+    
+    if (switchAuthMethod) {
+      switchAuthMethod.addEventListener('click', handleSwitchAuthMethod);
     }
 
     const loginForm = document.getElementById('login-form');
@@ -48,8 +47,11 @@ const AuthPage = () => {
         const email = document.getElementById('login-email').value;
         const password = document.getElementById('login-password').value;
         const errorElement = document.getElementById('login-error');
+        setErrorMessage(''); // Clear previous errors
+        setSuccessMessage(''); // Clear previous success messages
+
         try {
-          const response = await fetch('http://localhost:3000/login', {
+          const response = await fetch('http://localhost:8000/login', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
@@ -57,39 +59,66 @@ const AuthPage = () => {
             body: JSON.stringify({ email, password }),
           });
           const data = await response.json();
-          if (data.token) {
-            localStorage.setItem('token', data.token);
-            window.location.href = `preferences.html?token=${data.token}`;
-          }
-
           if (response.ok) {
-            window.location.href = `ChatUI.html?token=${data.token}`;
+            localStorage.setItem('token', data.token);
+            // Redirect to the dashboard or other page
+            window.location.href = `/dashboard?token=${data.token}`;
+            setSuccessMessage(data.message || 'Login successful!');
           } else {
-            errorElement.textContent = data.message || 'Login failed';
-            errorElement.style.display = 'block';
+            setErrorMessage(data.detail || 'Login failed.');
           }
         } catch (err) {
-          errorElement.textContent = 'Network error. Please try again.';
-          errorElement.style.display = 'block';
+          setErrorMessage('Network error. Please try again.');
         }
       });
     }
 
+    // New sign-up form submission logic
+    const signupForm = document.getElementById('signup-form');
+    if (signupForm) {
+        signupForm.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            const email = document.getElementById('signup-email').value;
+            const password = document.getElementById('signup-password').value;
+            setErrorMessage('');
+            setSuccessMessage('');
+            try {
+                const response = await fetch('http://localhost:8000/signup', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ email, password }),
+                });
+                const data = await response.json();
+                if (response.ok) {
+                    setSuccessMessage('Sign up successful! Please sign in.');
+                    handleSignInClick();
+                } else {
+                    setErrorMessage(data.detail || 'Sign up failed.');
+                }
+            } catch (error) {
+                setErrorMessage('Network error. Please try again.');
+            }
+        });
+    }
+
+    // Social auth buttons
     const socialAuthButtons = document.querySelectorAll('.social-auth-button');
     socialAuthButtons.forEach((button) => {
       button.addEventListener('click', function (e) {
         e.preventDefault();
         const provider = this.dataset.provider;
-        window.location.href = `http://localhost:3000/auth/${provider}`;
+        window.location.href = `http://localhost:8000/auth/${provider}`;
       });
     });
-    
+
     const signInSocialButtons = document.querySelectorAll('.sign-in-container .social');
-     signInSocialButtons.forEach((button) => {
+    signInSocialButtons.forEach((button) => {
       button.addEventListener('click', function (e) {
         e.preventDefault();
         const provider = this.querySelector('i').className.split(' ')[1].split('-')[1];
-        window.location.href = `http://localhost:3000/auth/${provider}`;
+        window.location.href = `http://localhost:8000/auth/${provider}`;
       });
     });
 
@@ -98,9 +127,13 @@ const AuthPage = () => {
         signUpButton.removeEventListener('click', handleSignUpClick);
         signInButton.removeEventListener('click', handleSignInClick);
       }
+      if (switchAuthMethod) {
+        switchAuthMethod.removeEventListener('click', handleSwitchAuthMethod);
+      }
     };
   }, []);
 
+  // Update the render function to include the new elements
   return (
     <div className="auth-body">
       <Iridescence 
@@ -120,49 +153,42 @@ const AuthPage = () => {
       <canvas id="canvas"></canvas>
       <div className="container" id="container">
         <div className="form-container sign-up-container">
-          <form>
+          <form id="signup-form">
             <h2 className="signup-heading">Get Started in Seconds</h2>
-            <a href="#" className="social-auth-button google-login-button" data-provider="google">
-              <svg
-                version="1.1"
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 48 48"
-                className="google-icon"
-              >
-                <path
-                  fill="#EA4335"
-                  d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"
-                ></path>
-                <path
-                  fill="#4285F4"
-                  d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"
-                ></path>
-                <path
-                  fill="#FBBC05"
-                  d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"
-                ></path>
-                <path
-                  fill="#34A853"
-                  d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"
-                ></path>
-                <path fill="none" d="M0 0h48v48H0z"></path>
-              </svg>
-              Continue with Google
-            </a>
-            <a href="#" className="social-auth-button github-login-button" data-provider="github">
+            <div className="social-buttons-container">
+              <a href="#" className="social-auth-button google-login-button" data-provider="google">
+                {/* SVG for Google icon */}
+                Continue with Google
+              </a>
+              <a href="#" className="social-auth-button github-login-button" data-provider="github">
                 <i className="fab fa-github"></i>
                 Continue with GitHub
-            </a>
+              </a>
+            </div>
+            {/* <div className="divider">
+              <span className="divider-text">OR</span>
+            </div> */}
+            {/* <input type="email" id="signup-email" placeholder="Email" required />
+            <input
+              type="password"
+              id="signup-password"
+              placeholder="Password"
+              required
+            /> */}
+            {/* <button type="submit" className="email-signup-button">Sign Up</button>
+            <p className="switch-auth-method">
+                Already have an account? <span id="switch-to-sign-in">Sign In</span>
+            </p> */}
           </form>
         </div>
         <div className="form-container sign-in-container">
           <form id="login-form">
             <h1>Sign In</h1>
             <div className="social-container">
-              <a href="#" className="social">
+              <a href="#" className="social" data-provider="google">
                 <i className="fab fa-google"></i>
               </a>
-              <a href="#" className="social">
+              <a href="#" className="social" data-provider="github">
                 <i className="fab fa-github"></i>
               </a>
             </div>
@@ -178,7 +204,12 @@ const AuthPage = () => {
               Forgot your password?
             </a>
             <button type="submit">Sign In</button>
-            <div className="error-message" id="login-error"></div>
+            <div className="error-message" id="login-error" style={{ display: errorMessage ? 'block' : 'none' }}>
+                {errorMessage}
+            </div>
+            <div className="success-message" id="login-success" style={{ display: successMessage ? 'block' : 'none' }}>
+                {successMessage}
+            </div>
           </form>
         </div>
         <div className="overlay-container">
